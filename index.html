@@ -377,37 +377,36 @@
   };
   var DAYS = [
     { short: 'Mo', date: '27.07', items: [
-      { time: '16:00', title: 'Ankunft', tone: 'highlight' },
-      { time: '17–18', title: 'Zimmer beziehen', tone: 'plain' },
-      { time: '19:00', title: 'Grillen', tone: 'meal' },
-      { time: '20–22', title: 'Get Together', sub: 'Spiele · Team 1', tone: 'social' }
+      { s: '15:00', e: '17:00', title: 'Ankunft', tone: 'highlight' },
+      { s: '17:00', e: '19:00', title: 'Zimmer beziehen', tone: 'plain' },
+      { s: '19:00', e: '20:00', title: 'Grillen', tone: 'meal' },
+      { s: '20:00', e: '22:00', title: 'Get Together', sub: 'gemütlich, mit Spielen · Team 1', tone: 'social' }
     ]},
     { short: 'Di', date: '28.07', items: [
-      { time: '08:00', title: 'Frühstück', tone: 'meal' },
-      { time: '09–10', title: 'Workshop', tone: 'workshop' },
-      { time: '11:00', title: 'Coworking', sub: '90 min', tone: 'coworking' },
-      { time: '12:00', title: 'Lunch', tone: 'meal' },
-      { time: '13–14', title: 'Workshop', tone: 'workshop' },
-      { time: '15–16', title: 'Coworking', sub: '120 min', tone: 'coworking' },
-      { time: '17–18', title: 'Aktivität', sub: 'MRT Beach, Volleyball, Billard etc.', tone: 'activity' },
-      { time: '19:00', title: 'Grillen', tone: 'meal' },
-      { time: '20–22', title: 'Get Together', sub: 'Spiele · Team 2', tone: 'social' }
+      { s: '08:00', e: '09:00', title: 'Frühstück', tone: 'meal' },
+      { s: '09:00', e: '10:30', title: 'Workshop', tone: 'workshop' },
+      { s: '10:30', e: '12:00', title: 'Coworking', tone: 'coworking' },
+      { s: '12:00', e: '13:00', title: 'Lunch', tone: 'meal' },
+      { s: '13:00', e: '15:00', title: 'Workshop', tone: 'workshop' },
+      { s: '15:00', e: '17:00', title: 'Coworking', tone: 'coworking' },
+      { s: '17:00', e: '19:00', title: 'Aktivität', sub: 'MRT Beach, Volleyball, Billard etc.', tone: 'activity' },
+      { s: '19:00', e: '20:00', title: 'Grillen', tone: 'meal' },
+      { s: '20:00', e: '22:00', title: 'Get Together', sub: 'gemütlich, mit Spielen · Team 2', tone: 'social' }
     ]},
     { short: 'Mi', date: '29.07', items: [
-      { time: '08:00', title: 'Frühstück', tone: 'meal' },
-      { time: '09–10', title: 'Workshop', tone: 'workshop' },
-      { time: '11:00', title: 'Coworking', sub: '90 min', tone: 'coworking' },
-      { time: '12:00', title: 'Lunch', tone: 'meal' },
-      { time: '13–14', title: 'Aktivität', sub: 'MRT Beach, Volleyball, Billard etc.', tone: 'activity' },
-      { time: '15–16', title: 'Workshop', tone: 'workshop' },
-      { time: '17–18', title: 'Coworking', sub: '120 min', tone: 'coworking' },
-      { time: '19:00', title: 'Pizza', tone: 'meal' },
-      { time: '20–22', title: 'Get Together', sub: 'Spiele · Team 3', tone: 'social' }
+      { s: '08:00', e: '09:00', title: 'Frühstück', tone: 'meal' },
+      { s: '09:00', e: '10:30', title: 'Workshop', tone: 'workshop' },
+      { s: '10:30', e: '12:00', title: 'Coworking', tone: 'coworking' },
+      { s: '12:00', e: '13:00', title: 'Lunch', tone: 'meal' },
+      { s: '13:00', e: '15:00', title: 'Aktivität', sub: 'MRT Beach, Volleyball, Billard etc.', tone: 'activity' },
+      { s: '15:00', e: '17:00', title: 'Workshop', tone: 'workshop' },
+      { s: '17:00', e: '19:00', title: 'Coworking', tone: 'coworking' },
+      { s: '19:00', e: '20:00', title: 'Pizza', tone: 'meal' },
+      { s: '20:00', e: '22:00', title: 'Get Together', sub: 'gemütlich, mit Spielen · Team 3', tone: 'social' }
     ]},
     { short: 'Do', date: '30.07', items: [
-      { time: '08:00', title: 'Frühstück', tone: 'meal' },
-      { time: '09–10', title: 'Aufräumen / Abreise', tone: 'plain' },
-      { time: '11:00', title: 'Abfahrt', tone: 'highlight' }
+      { s: '08:00', e: '09:00', title: 'Frühstück', tone: 'meal' },
+      { s: '09:00', e: '12:00', title: 'Aufräumen / Abreise', tone: 'highlight' }
     ]}
   ];
 
@@ -442,9 +441,11 @@
     DAYS[active].items.forEach(function (it) {
       var t = TONE[it.tone];
       var row = el('div', 'display:flex;gap:12px;align-items:stretch');
-      row.appendChild(el('div',
-        'width:44px;flex-shrink:0;text-align:right;font-size:13px;font-weight:600;color:#79BAA1;padding-top:13px',
-        it.time));
+      var timeCol = el('div',
+        'width:44px;flex-shrink:0;text-align:right;padding-top:11px;line-height:1.3');
+      timeCol.appendChild(el('div', 'font-size:13px;font-weight:600;color:#79BAA1', it.s));
+      timeCol.appendChild(el('div', 'font-size:11px;font-weight:400;color:#79BAA1;opacity:.7', it.e));
+      row.appendChild(timeCol);
       var card = el('div',
         'flex:1;padding:12px 15px;border-radius:14px;background:' + t.bg + ';color:' + t.fg + ';border:' + t.border);
       card.appendChild(el('div', 'font-size:15px;font-weight:600;line-height:1.25', it.title));
