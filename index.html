@@ -35,6 +35,15 @@
   a:hover { color: #108455; }
   .ms { font-family: 'MS'; font-weight: normal; font-style: normal; line-height: 1; }
   button { -webkit-tap-highlight-color: transparent; }
+  details.rz { border:1px solid rgba(0,70,61,.10); border-radius:16px; background:#fff; overflow:hidden; }
+  details.rz + details.rz { margin-top:10px; }
+  details.rz > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:13px; padding:15px 16px; -webkit-tap-highlight-color:transparent; }
+  details.rz > summary::-webkit-details-marker { display:none; }
+  details.rz .rz-plus { margin-left:auto; flex-shrink:0; width:24px; height:24px; position:relative; transition:transform .2s ease; color:#00463D; }
+  details.rz .rz-plus::before, details.rz .rz-plus::after { content:""; position:absolute; top:50%; left:50%; width:12px; height:2px; border-radius:2px; background:currentColor; transform:translate(-50%,-50%); }
+  details.rz .rz-plus::after { transform:translate(-50%,-50%) rotate(90deg); }
+  details.rz[open] .rz-plus { transform:rotate(45deg); }
+  details.rz .rz-body { padding:14px 16px 18px; border-top:1px solid rgba(0,70,61,.08); }
 </style>
 
 <div style="max-width:480px;margin:0 auto;background:#FAF9F6;min-height:100vh;font-family:'Sohne','Archivo','Helvetica Neue',sans-serif;color:#00463D;-webkit-font-smoothing:antialiased;--accent:#70FC9B">
@@ -85,14 +94,6 @@
       <a href="#s6" style="display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:20px;background:#fff;border:1px solid rgba(0,70,61,.10)">
         <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:999px;background:var(--accent,#70FC9B);color:#00463D;font-weight:600;font-size:15px">06</span>
         <span style="font-size:15px;font-weight:600;line-height:1.2">Umgebung</span>
-      </a>
-      <a href="#s7" style="grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:16px;border-radius:20px;background:#00463D;border:1px solid #00463D">
-        <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex-shrink:0;border-radius:999px;background:var(--accent,#70FC9B);color:#00463D;font-weight:600;font-size:15px">07</span>
-        <span style="display:flex;flex-direction:column;gap:2px">
-          <span style="font-size:15px;font-weight:600;line-height:1.2;color:#fff">Lunch-Rezepte</span>
-          <span style="font-size:12px;font-weight:400;color:#79BAA1">Pasta „Bolognese“ &amp; Chili con/sin Carne</span>
-        </span>
-        <span class="ms" aria-hidden="true" style="margin-left:auto;font-size:22px;color:var(--accent,#70FC9B)">&#xe56c;</span>
       </a>
     </div>
   </section>
@@ -154,6 +155,16 @@
     <div id="zdays" style="display:flex;gap:8px;margin-bottom:16px"></div>
 
     <div id="zitems" style="display:flex;flex-direction:column;gap:9px"></div>
+
+    <!-- Lunch-Rezepte zum Aufklappen -->
+    <div style="margin-top:26px;padding-top:22px;border-top:1px solid rgba(0,70,61,.10)">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:5px">
+        <span class="ms" aria-hidden="true" style="font-size:20px;color:#00463D">&#xe56c;</span>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#79BAA1">Lunch-Rezepte</div>
+      </div>
+      <p style="font-size:13px;color:#535459;margin:0 0 14px">Tippen zum Aufklappen · immer 2 Töpfe, mit Fleisch &amp; vegan</p>
+      <div id="recipes"></div>
+    </div>
   </section>
 
   <!-- 03 Haus- & Zimmeraufteilung -->
@@ -357,16 +368,6 @@
     </div>
   </section>
 
-  <!-- 07 Lunch-Rezepte -->
-  <section id="s7" style="scroll-margin-top:60px;padding:34px 20px 10px">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-      <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:#00463D;color:var(--accent,#70FC9B);font-weight:600;font-size:16px">07</span>
-      <h2 style="font-size:30px;font-weight:600;letter-spacing:-.01em;margin:0">Lunch-Rezepte</h2>
-    </div>
-    <p style="font-size:13px;color:#535459;margin:0 0 16px">Immer 2 Töpfe – einmal mit Fleisch, einmal vegan</p>
-    <div id="recipes" style="display:flex;flex-direction:column;gap:16px"></div>
-  </section>
-
   <!-- Closing -->
   <section style="position:relative;overflow:hidden;background:#00463D;color:#fff;margin-top:26px;padding:56px 24px 60px;text-align:center">
     <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgaWQ9IkViZW5lXzEiIGRhdGEtbmFtZT0iRWJlbmUgMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTgxOSAxMDgwIj4KICA8cGF0aCBmaWxsPSIjNzBGQzlCIiBkPSJNNzUxLjUsNzA4LjY2Yy0xMjMuMzYsMTY5Ljc5LTM2MS40NSwyMTAuNS01MzEuNjQsODcuNzFDNDkuMTUsNjczLjIxLDkuODcsNDM0LjI2LDEzMy41LDI2NC4xLDI1My42NSw5OC43Myw0OTUuNTMsNTcuNjEsNjY1LjM1LDE4MC45OWM2LjcsNC44NywxMy4yMSw5Ljg0LDE5LjQsMTQuOSwxLjI1LDEuMDIsMS40NywyLjg1LjUyLDQuMTVsLTE2OC41NCwyMzIuMDdjLS45OCwxLjM2LTIuODcsMS42Ny00LjIzLjY5LTMuODUtMi43Ny05LjgxLTcuMDMtMTQuMjItMTAuMzQtMzcuMDUtMjcuNzktOTQuMTQtMjcuNjItMTI1LjkxLDE1LjItMjUuMjYsMzguNzctMjEuODQsODguNjksMTkuOTgsMTE5LjA3LDM2LjUyLDI2LjUzLDgxLjI2LDE4LjcsMTEwLjgzLTEwLjgxbC4yMi4xNiwxLjA4LTEuNDhjMy4yOS0zLjQxLDYuMzktNy4wOCw5LjI1LTExLjAybDIzMS4xLTMxOC4wOGMxMDAuOTgtMTM4Ljk4LDI5My4wOC0xOTAuNzYsNDUyLjU1LTEyNi45OSwxLjg0Ljc0LDIuNDksMy4wMywxLjMzLDQuNjNsLTQ0Ny4yLDYxNS41MloiPjwvcGF0aD4KICA8cGF0aCBmaWxsPSIjNzBGQzlCIiBkPSJNMTA2Ny41LDM3MS4zNGMxMjMuMzYtMTY5Ljc5LDM2MS40NS0yMTAuNSw1MzEuNjQtODcuNzEsMTcwLjcsMTIzLjE1LDIwOS45OCwzNjIuMSw4Ni4zNSw1MzIuMjYtMTIwLjE1LDE2NS4zOC0zNjIuMDQsMjA2LjQ5LTUzMS44NSw4My4xMS02LjctNC44Ny0xMy4yMS05Ljg0LTE5LjQtMTQuOS0xLjI1LTEuMDItMS40Ny0yLjg1LS41Mi00LjE1bDE2OC41NC0yMzIuMDdjLjk4LTEuMzYsMi44Ny0xLjY3LDQuMjMtLjY5LDMuODUsMi43Nyw5LjgxLDcuMDMsMTQuMjIsMTAuMzQsMzcuMDUsMjcuNzksOTQuMTQsMjcuNjIsMTI1LjkxLTE1LjIsMjUuMjYtMzguNzcsMjEuODQtODguNjktMTkuOTgtMTE5LjA3LTM2LjUyLTI2LjUzLTgxLjI2LTE4LjctMTEwLjgzLDEwLjgxbC0uMjItLjE2LTEuMDgsMS40OGMtMy4yOSwzLjQxLTYuMzksNy4wOC05LjI1LDExLjAybC0yMzEuMSwzMTguMDhjLTEwMC45OCwxMzguOTgtMjkzLjA4LDE5MC43Ni00NTIuNTUsMTI2Ljk5LTEuODQtLjc0LTIuNDktMy4wMy0xLjMzLTQuNjNsNDQ3LjItNjE1LjUyWiI+PC9wYXRoPgo8L3N2Zz4=" alt="" aria-hidden="true" style="position:absolute;left:50%;bottom:-70px;transform:translateX(-50%);width:300px;opacity:.09;pointer-events:none">
@@ -555,11 +556,26 @@
 
   var host = document.getElementById('recipes');
   if (host) {
-    RECIPES.forEach(function (r) {
-      var card = el('div', 'border-radius:20px;overflow:hidden;background:#fff;border:1px solid rgba(0,70,61,.10);padding:20px');
+    RECIPES.forEach(function (r, ri) {
+      var det = document.createElement('details');
+      det.className = 'rz';
 
-      // Title
-      card.appendChild(el('div', 'font-size:22px;font-weight:600;line-height:1.15;margin-bottom:16px', r.title));
+      var summary = document.createElement('summary');
+      summary.appendChild(el('span',
+        'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;border-radius:999px;background:var(--accent,#70FC9B);color:#00463D;font-weight:600;font-size:14px',
+        String(ri + 1)));
+      var sumCol = el('span', 'display:flex;flex-direction:column;gap:2px;min-width:0');
+      sumCol.appendChild(el('span', 'font-size:16px;font-weight:600;line-height:1.2;color:#00463D', r.title));
+      sumCol.appendChild(el('span', 'font-size:12px;font-weight:400;color:#79BAA1', '2 Varianten · mit Fleisch & vegan'));
+      summary.appendChild(sumCol);
+      var plus = document.createElement('span');
+      plus.className = 'rz-plus';
+      plus.setAttribute('aria-hidden', 'true');
+      summary.appendChild(plus);
+      det.appendChild(summary);
+
+      var card = document.createElement('div');
+      card.className = 'rz-body';
 
       // Zutaten
       card.appendChild(eyebrow('Zutaten', '#79BAA1'));
@@ -608,7 +624,8 @@
       stepsWrap.appendChild(steps);
       card.appendChild(stepsWrap);
 
-      host.appendChild(card);
+      det.appendChild(card);
+      host.appendChild(det);
     });
   }
 })();
