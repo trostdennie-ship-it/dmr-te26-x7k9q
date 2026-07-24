@@ -86,6 +86,14 @@
         <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:999px;background:var(--accent,#70FC9B);color:#00463D;font-weight:600;font-size:15px">06</span>
         <span style="font-size:15px;font-weight:600;line-height:1.2">Umgebung</span>
       </a>
+      <a href="#s7" style="grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:16px;border-radius:20px;background:#00463D;border:1px solid #00463D">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex-shrink:0;border-radius:999px;background:var(--accent,#70FC9B);color:#00463D;font-weight:600;font-size:15px">07</span>
+        <span style="display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:15px;font-weight:600;line-height:1.2;color:#fff">Lunch-Rezepte</span>
+          <span style="font-size:12px;font-weight:400;color:#79BAA1">Pasta „Bolognese“ &amp; Chili con/sin Carne</span>
+        </span>
+        <span class="ms" aria-hidden="true" style="margin-left:auto;font-size:22px;color:var(--accent,#70FC9B)">&#xe56c;</span>
+      </a>
     </div>
   </section>
 
@@ -349,6 +357,16 @@
     </div>
   </section>
 
+  <!-- 07 Lunch-Rezepte -->
+  <section id="s7" style="scroll-margin-top:60px;padding:34px 20px 10px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:#00463D;color:var(--accent,#70FC9B);font-weight:600;font-size:16px">07</span>
+      <h2 style="font-size:30px;font-weight:600;letter-spacing:-.01em;margin:0">Lunch-Rezepte</h2>
+    </div>
+    <p style="font-size:13px;color:#535459;margin:0 0 16px">Immer 2 Töpfe – einmal mit Fleisch, einmal vegan</p>
+    <div id="recipes" style="display:flex;flex-direction:column;gap:16px"></div>
+  </section>
+
   <!-- Closing -->
   <section style="position:relative;overflow:hidden;background:#00463D;color:#fff;margin-top:26px;padding:56px 24px 60px;text-align:center">
     <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgaWQ9IkViZW5lXzEiIGRhdGEtbmFtZT0iRWJlbmUgMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTgxOSAxMDgwIj4KICA8cGF0aCBmaWxsPSIjNzBGQzlCIiBkPSJNNzUxLjUsNzA4LjY2Yy0xMjMuMzYsMTY5Ljc5LTM2MS40NSwyMTAuNS01MzEuNjQsODcuNzFDNDkuMTUsNjczLjIxLDkuODcsNDM0LjI2LDEzMy41LDI2NC4xLDI1My42NSw5OC43Myw0OTUuNTMsNTcuNjEsNjY1LjM1LDE4MC45OWM2LjcsNC44NywxMy4yMSw5Ljg0LDE5LjQsMTQuOSwxLjI1LDEuMDIsMS40NywyLjg1LjUyLDQuMTVsLTE2OC41NCwyMzIuMDdjLS45OCwxLjM2LTIuODcsMS42Ny00LjIzLjY5LTMuODUtMi43Ny05LjgxLTcuMDMtMTQuMjItMTAuMzQtMzcuMDUtMjcuNzktOTQuMTQtMjcuNjItMTI1LjkxLDE1LjItMjUuMjYsMzguNzctMjEuODQsODguNjksMTkuOTgsMTE5LjA3LDM2LjUyLDI2LjUzLDgxLjI2LDE4LjcsMTEwLjgzLTEwLjgxbC4yMi4xNiwxLjA4LTEuNDhjMy4yOS0zLjQxLDYuMzktNy4wOCw5LjI1LTExLjAybDIzMS4xLTMxOC4wOGMxMDAuOTgtMTM4Ljk4LDI5My4wOC0xOTAuNzYsNDUyLjU1LTEyNi45OSwxLjg0Ljc0LDIuNDksMy4wMywxLjMzLDQuNjNsLTQ0Ny4yLDYxNS41MloiPjwvcGF0aD4KICA8cGF0aCBmaWxsPSIjNzBGQzlCIiBkPSJNMTA2Ny41LDM3MS4zNGMxMjMuMzYtMTY5Ljc5LDM2MS40NS0yMTAuNSw1MzEuNjQtODcuNzEsMTcwLjcsMTIzLjE1LDIwOS45OCwzNjIuMSw4Ni4zNSw1MzIuMjYtMTIwLjE1LDE2NS4zOC0zNjIuMDQsMjA2LjQ5LTUzMS44NSw4My4xMS02LjctNC44Ny0xMy4yMS05Ljg0LTE5LjQtMTQuOS0xLjI1LTEuMDItMS40Ny0yLjg1LS41Mi00LjE1bDE2OC41NC0yMzIuMDdjLjk4LTEuMzYsMi44Ny0xLjY3LDQuMjMtLjY5LDMuODUsMi43Nyw5LjgxLDcuMDMsMTQuMjIsMTAuMzQsMzcuMDUsMjcuNzksOTQuMTQsMjcuNjIsMTI1LjkxLTE1LjIsMjUuMjYtMzguNzcsMjEuODQtODguNjktMTkuOTgtMTE5LjA3LTM2LjUyLTI2LjUzLTgxLjI2LTE4LjctMTEwLjgzLDEwLjgxbC0uMjItLjE2LTEuMDgsMS40OGMtMy4yOSwzLjQxLTYuMzksNy4wOC05LjI1LDExLjAybC0yMzEuMSwzMTguMDhjLTEwMC45OCwxMzguOTgtMjkzLjA4LDE5MC43Ni00NTIuNTUsMTI2Ljk5LTEuODQtLjc0LTIuNDktMy4wMy0xLjMzLTQuNjNsNDQ3LjItNjE1LjUyWiI+PC9wYXRoPgo8L3N2Zz4=" alt="" aria-hidden="true" style="position:absolute;left:50%;bottom:-70px;transform:translateX(-50%);width:300px;opacity:.09;pointer-events:none">
@@ -458,5 +476,140 @@
   }
 
   render();
+})();
+
+(function () {
+  var ACCENT = '#70FC9B';
+  var RECIPES = [
+    {
+      title: 'Pasta „Bolognese“',
+      base: [
+        'Nudeln',
+        'Margarine (zum Braten)'
+      ],
+      note: 'Achtung: kein Olivenöl verwenden!',
+      variants: [
+        { label: 'Variante 1 · mit Fleisch', vegan: false, items: [
+          'Passierte Tomaten / Tomatensoße', 'Tomatenmark', 'Hackfleisch (Huhn)',
+          'Zwiebeln', 'Möhre', 'Salz & Pfeffer', 'Gemüsebrühe', 'Käse / Parmesan'
+        ]},
+        { label: 'Variante 2 · vegan', vegan: true, items: [
+          'Passierte Tomaten / Tomatensoße', 'Tomatenmark', 'Zwiebeln', 'Möhre',
+          'Zucchini', 'Paprika', 'Aubergine', 'Salz & Pfeffer', 'Gemüsebrühe'
+        ]}
+      ],
+      stepsTitle: 'Zubereitung · 2 „Bolognese“-Töpfe',
+      steps: [
+        { t: 'Topf mit Wasser salzen, Nudeln al dente kochen, abgießen.' },
+        { t: 'Zwiebeln und Gemüse klein schneiden und mit Margarine anbraten.', sub: 'Variante 1: Hackfleisch anbraten und dazugeben.' },
+        { t: 'Tomatensoße / passierte Tomaten dazugeben.' },
+        { t: 'Mit Gewürzen abschmecken (ggf. Gemüsebrühe).' },
+        { t: 'Ca. 20 min bei kleiner Hitze köcheln lassen.' }
+      ]
+    },
+    {
+      title: 'Chili con / sin Carne',
+      base: [
+        'Nudelreste', 'Reis', 'Margarine (zum Braten)'
+      ],
+      note: 'Achtung: kein Olivenöl verwenden!',
+      variants: [
+        { label: 'Variante „con“ · mit Fleisch', vegan: false, items: [
+          'Reste der Bolognese', 'Passierte Tomaten / Tomatensoße', 'Tomatenmark',
+          'Hackfleisch (Huhn)', 'Zwiebeln', 'Möhre', 'Salz & Pfeffer', 'Gemüsebrühe',
+          'Kidneybohnen', 'Mais', 'Paprika'
+        ]},
+        { label: 'Variante „sin“ · vegan', vegan: true, items: [
+          'Reste der Bolognese (vegan)', 'Passierte Tomaten / Tomatensoße', 'Tomatenmark',
+          'Zwiebeln', 'Möhre', 'Zucchini', 'Paprika', 'Aubergine', 'Salz & Pfeffer',
+          'Gemüsebrühe', 'Kidneybohnen', 'Mais'
+        ]}
+      ],
+      stepsTitle: 'Zubereitung · 2 „Chili“-Töpfe',
+      steps: [
+        { t: 'Topf mit Wasser salzen und Reis kochen.' },
+        { t: 'Zwiebeln und Gemüse klein schneiden und mit Margarine anbraten.', sub: 'Variante „con“: Hackfleisch anbraten und dazugeben.' },
+        { t: 'Tomatensoße / passierte Tomaten dazugeben.' },
+        { t: 'Kidneybohnen & Mais dazugeben.' },
+        { t: 'Mit Gewürzen abschmecken (ggf. Gemüsebrühe).' },
+        { t: 'Ca. 20–30 min bei kleiner Hitze köcheln lassen.' }
+      ]
+    }
+  ];
+
+  function el(tag, css, text) {
+    var n = document.createElement(tag);
+    if (css) n.style.cssText = css;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function eyebrow(text, color) {
+    return el('div', 'font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:' + color + ';margin-bottom:10px', text);
+  }
+  function bullet(text, dotColor, textColor) {
+    var row = el('div', 'display:flex;gap:9px;font-size:15px;line-height:1.4;color:' + textColor);
+    row.appendChild(el('span', 'color:' + dotColor + ';flex-shrink:0', '•'));
+    row.appendChild(el('span', '', text));
+    return row;
+  }
+
+  var host = document.getElementById('recipes');
+  if (host) {
+    RECIPES.forEach(function (r) {
+      var card = el('div', 'border-radius:20px;overflow:hidden;background:#fff;border:1px solid rgba(0,70,61,.10);padding:20px');
+
+      // Title
+      card.appendChild(el('div', 'font-size:22px;font-weight:600;line-height:1.15;margin-bottom:16px', r.title));
+
+      // Zutaten
+      card.appendChild(eyebrow('Zutaten', '#79BAA1'));
+
+      // Grundzutaten
+      var base = el('div', 'display:flex;flex-direction:column;gap:7px;margin-bottom:12px');
+      r.base.forEach(function (b) { base.appendChild(bullet(b, '#79BAA1', '#3a5750')); });
+      card.appendChild(base);
+
+      // Note
+      if (r.note) {
+        var note = el('div', 'display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:14px;background:#DFBEFD;color:#5E095C;font-size:13px;font-weight:600;line-height:1.4;margin-bottom:16px');
+        note.appendChild(el('span', 'flex-shrink:0', '!'));
+        note.appendChild(el('span', '', r.note));
+        card.appendChild(note);
+      }
+
+      // Variants
+      r.variants.forEach(function (v) {
+        var bg = v.vegan ? '#E7F4EC' : '#CFE6DD';
+        var block = el('div', 'padding:14px 16px;border-radius:16px;background:' + bg + ';margin-bottom:10px');
+        block.appendChild(el('div', 'font-size:13px;font-weight:600;color:#00463D;margin-bottom:9px', v.label));
+        var list = el('div', 'display:flex;flex-direction:column;gap:6px');
+        v.items.forEach(function (it) { list.appendChild(bullet(it, '#108455', '#3a5750')); });
+        block.appendChild(list);
+        card.appendChild(block);
+      });
+
+      // Zubereitung
+      var stepsWrap = el('div', 'margin-top:14px');
+      stepsWrap.appendChild(eyebrow(r.stepsTitle, '#79BAA1'));
+      var steps = el('div', 'display:flex;flex-direction:column;gap:10px');
+      r.steps.forEach(function (s, i) {
+        var row = el('div', 'display:flex;gap:12px;align-items:flex-start');
+        row.appendChild(el('span',
+          'display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;flex-shrink:0;border-radius:999px;background:#00463D;color:' + ACCENT + ';font-weight:600;font-size:13px',
+          String(i + 1)));
+        var textCol = el('div', 'flex:1');
+        textCol.appendChild(el('div', 'font-size:15px;line-height:1.4;color:#00463D', s.t));
+        if (s.sub) {
+          textCol.appendChild(el('div', 'font-size:13px;line-height:1.4;color:#535459;font-style:italic;margin-top:3px', s.sub));
+        }
+        row.appendChild(textCol);
+        steps.appendChild(row);
+      });
+      stepsWrap.appendChild(steps);
+      card.appendChild(stepsWrap);
+
+      host.appendChild(card);
+    });
+  }
 })();
 </script>
