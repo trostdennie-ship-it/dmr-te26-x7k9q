@@ -1,0 +1,10 @@
+{
+  "max_weight": 1.0,
+  "allow_short": false,
+  "vol_target": null,
+  "vol_lookback": 60,
+  "rebalance_band": 0.0,
+  "dd_kill": null,
+  "dd_cooldown": 21,
+  "cost_bps_per_side": 5.0
+}

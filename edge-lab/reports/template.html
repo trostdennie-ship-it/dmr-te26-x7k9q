@@ -1,0 +1,414 @@
+<title>Edge Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: one reading column for the argument, full-width bands for the evidence (charts + tables), a lab-notebook feel with monospace for every number. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #12151c;
+  --ink-2: #4a5161;
+  --ink-3: #7a8191;
+  --rule: #dde0e7;
+  --accent: #2f45c4;
+  --accent-soft: #e6e9fb;
+  --good: #1d7a4a;
+  --good-soft: #e3f3ea;
+  --bad: #b3362f;
+  --bad-soft: #fbe7e5;
+  --warn: #9a6200;
+  --warn-soft: #fbf0d9;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --grid: #eceef2;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1217; --surface: #171b22; --ink: #eceef3; --ink-2: #b4bac7; --ink-3: #868d9c;
+    --rule: #2a303b; --accent: #8b98f0; --accent-soft: #232a4a;
+    --good: #5fc48d; --good-soft: #15291f; --bad: #f08a82; --bad-soft: #351b19;
+    --warn: #e2ad4a; --warn-soft: #33270f;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --grid: #222833;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1217; --surface: #171b22; --ink: #eceef3; --ink-2: #b4bac7; --ink-3: #868d9c;
+  --rule: #2a303b; --accent: #8b98f0; --accent-soft: #232a4a;
+  --good: #5fc48d; --good-soft: #15291f; --bad: #f08a82; --bad-soft: #351b19;
+  --warn: #e2ad4a; --warn-soft: #33270f;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --grid: #222833;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--f-body); margin: 0; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 64px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 600; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.lede { font-size: 1.15rem; color: var(--ink-2); }
+.stack { display: grid; gap: 16px; }
+.stack-lg { display: grid; gap: 28px; }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+a { color: var(--accent); }
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.vcard { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.vcard .big { font: 600 1.9rem/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+.vcard p { color: var(--ink-2); font-size: 0.95rem; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 500 12px/1 var(--f-mono); padding: 5px 8px; border-radius: 99px; width: fit-content; }
+.pill.good { color: var(--good); background: var(--good-soft); }
+.pill.bad { color: var(--bad); background: var(--bad-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+.tablewrap > table { min-width: 560px; }
+.tablewrap > table.cmp { min-width: 680px; }
+.vcard .big.sm { font-size: 1.35rem; line-height: 1.25; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 12px/1.3 var(--f-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cmp td:first-child { font-weight: 600; white-space: nowrap; }
+.cmp td:nth-child(2) { color: var(--ink-2); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab { font: 500 14px/1 var(--f-body); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tab:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.note { font-size: 0.88rem; color: var(--ink-3); }
+.chart { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 12px 10px; position: relative; min-width: 0; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart .ttl { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; padding-inline: 6px; margin-bottom: 8px; align-items: baseline; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font: 12px/1.5 var(--f-mono); color: var(--ink); box-shadow: 0 4px 14px rgb(0 0 0 / 0.12); min-width: 180px; z-index: 2; }
+.tip b { font-weight: 500; color: var(--ink-3); display: block; margin-bottom: 2px; }
+.tip .row { display: flex; justify-content: space-between; gap: 12px; }
+.tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.luck { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.luck .vcard .big { font-size: 1.5rem; }
+.lessons { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.lesson { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 8px 28px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+.lesson h3 { font-size: 1.1rem; }
+.lesson p { color: var(--ink-2); }
+@media (max-width: 640px) { .lesson { grid-template-columns: 1fr; } }
+.hash { font: 12px/1.4 var(--f-mono); color: var(--ink-3); word-break: break-all; }
+pre.code { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 13px/1.55 var(--f-mono); color: var(--ink); }
+.disclaimer { border-top: 2px solid var(--ink); padding-top: 16px; color: var(--ink-2); font-size: 0.92rem; }
+.strip-lab { font: 11px var(--f-mono); fill: var(--ink-3); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+<header class="stack-lg">
+  <div class="eyebrow">Edge Lab · Antwort auf „Six-Bot AI Trading Team With Grok“</div>
+  <h1>Sechs Bots stimmen ab. Keiner misst nach.</h1>
+  <div class="col stack">
+    <p class="lede">Der Grok-Guide lässt sechs LLM-Bots über einen erfundenen Ticker beraten und gibt BUY, WAIT oder SKIP aus. Er schreibt selbst: „No evaluation loop measures outcomes.“ Ein Trading-System ohne Messung ist eine Meinung mit JSON-Schema.</p>
+    <p class="lede">Edge Lab stellt die Frage, die vorher kommt: <strong>Schlägt irgendeine einfache Regel Buy &amp; Hold nach Kosten, deutschen Steuern und Korrektur für Glück?</strong> Getestet auf 55 Jahren NASDAQ, 11 Jahren Bitcoin und 90 Jahren S&amp;P 500.</p>
+  </div>
+  <div class="verdict" id="verdict"></div>
+</header>
+
+<section class="stack-lg" aria-labelledby="cmp-h">
+  <div class="stack col">
+    <div class="eyebrow">Architektur</div>
+    <h2 id="cmp-h">Was anders gebaut ist</h2>
+    <p>Das Gute am Grok-Guide bleibt: Simulation only, Risk Gate in Code, Prompt-Injection als Daten behandelt. Der Unterschied liegt darin, wo Wissen herkommt.</p>
+  </div>
+  <div class="tablewrap">
+    <table class="cmp">
+      <thead><tr><th>Frage</th><th>Grok Six-Bot</th><th>Edge Lab</th></tr></thead>
+      <tbody>
+        <tr><td>Daten</td><td>Ein fiktiver Ticker (EXMP)</td><td>NASDAQ täglich seit 1971, Bitcoin seit 2014, S&amp;P 500 inkl. Dividenden seit 1934, echte T-Bill-Zinsen für Cash</td></tr>
+        <tr><td>Signal</td><td>LLM-Meinungen; ein LLM „liest“ Support und Resistance aus Zahlen</td><td>Deterministischer Code, exakt und reproduzierbar</td></tr>
+        <tr><td>Look-ahead</td><td>Nicht adressiert</td><td>Ausführung erst am nächsten Schlusskurs; ein Test verändert Zukunftspreise und prüft, dass sich kein Signal bewegt</td></tr>
+        <tr><td>Benchmark</td><td>Keiner</td><td>Buy &amp; Hold im identischen Zeitfenster</td></tr>
+        <tr><td>Kosten &amp; Steuern</td><td>Keine</td><td>Kosten je Trade-Seite (0 bis 50 bps), Abgeltungsteuer mit Teilfreistellung, § 23 EStG für Krypto</td></tr>
+        <tr><td>Glück vs. Können</td><td>Nicht adressiert</td><td>Deflated Sharpe, White Reality Check, Walk-Forward, Affentest mit 1.000 Zufallsstrategien</td></tr>
+        <tr><td>Evaluation</td><td>„Not self-improving“</td><td>Hash-verkettetes Forward-Ledger; misst auch Groks Decision-Bot-Output</td></tr>
+        <tr><td>Rolle des LLM</td><td>Entscheidet</td><td>Prüft: Claude als Red-Team-Reviewer der Studie, ohne Zugriff auf Positionen</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="stack-lg" aria-labelledby="ev-h">
+  <div class="stack col">
+    <div class="eyebrow">Evidenz</div>
+    <h2 id="ev-h">Die Märkte im Detail</h2>
+    <p>Jede Regel startet am selben Tag wie Buy &amp; Hold. „Vorab festgelegt“ heißt: diese eine Regel stand fest, bevor irgendein Ergebnis gesehen wurde. „Bester von N“ ist das, was ein Optimierer im Nachhinein findet und gern als Screenshot postet.</p>
+  </div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="market" class="stack-lg"></div>
+</section>
+
+<section class="stack-lg" aria-labelledby="les-h">
+  <div class="stack col">
+    <div class="eyebrow">Was wir gelernt haben</div>
+    <h2 id="les-h">Fünf Befunde, die kein Bot-Voting liefert</h2>
+  </div>
+  <div class="lessons" id="lessons"></div>
+</section>
+
+<section class="stack-lg" aria-labelledby="led-h">
+  <div class="stack col">
+    <div class="eyebrow">Forward-Test</div>
+    <h2 id="led-h">Das Ledger läuft ab heute</h2>
+    <p>Ein LLM kann man nicht historisch backtesten: Es kennt die Kursverläufe aus seinen Trainingsdaten. „Grok hätte 2022 verkauft“ ist deshalb wertlos. Es bleibt nur der Vorwärtstest. Jeder Call wird vor dem Ergebnis in eine Hash-Kette geschrieben und per Git-Commit zeitgestempelt. Nachträgliches Ändern bricht die Kette, Rückdatieren lehnt der Code ab.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>#</th><th>Stand</th><th>Markt</th><th>Quelle</th><th>Regel</th><th class="r">Exposure</th><th>Hash</th></tr></thead>
+      <tbody id="ledger"></tbody>
+    </table>
+  </div>
+  <div class="stack col">
+    <h3>Grok fair messen</h3>
+    <p>Wer das Six-Bot-System betreibt, kann dessen Decision-JSON direkt ins selbe Ledger schreiben. Nach 21 Handelstagen steht pro Call fest, ob er besser war als einfach halten.</p>
+  </div>
+  <pre class="code">python record_today.py --grok decision.json
+# {"decision": "WAIT", "human_review_required": true, ...}  -> Exposure 0 %
+python -c "from edgelab import ledger, data; print(ledger.score('ledger/ledger.jsonl', {k: f() for k, f in data.MARKETS.items()}))"</pre>
+</section>
+
+<footer class="disclaimer stack">
+  <p><strong>Simulation. Keine Anlageberatung.</strong> Vergangene Daten sagen nichts Sicheres über die Zukunft. Kein Order-, Broker- oder Wallet-Code. Steuermodell vereinfacht (ohne Kirchensteuer, Vorabpauschale, Freibeträge); § 23 EStG nach Stand meines Wissens, vor jeder Nutzung mit Steuerberatung prüfen.</p>
+  <p class="note" id="sources"></p>
+</footer>
+
+</div>
+
+<script>
+const STUDY = __STUDY__;
+const LEDGER = __LEDGER__;
+
+const KEYS = ["nasdaq", "bitcoin", "sp500_monthly"];
+const SHORT = { nasdaq: "NASDAQ", bitcoin: "Bitcoin", sp500_monthly: "S&P 500" };
+const SER = ["var(--s1)", "var(--s2)", "var(--s3)", "var(--s4)"];
+
+const nf = (d) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = (x, d = 1) => nf(d).format(x * 100) + " %";
+const num = (x, d = 2) => nf(d).format(x);
+const sgn = (x, d = 2) => (x > 0 ? "+" : x < 0 ? "−" : "±") + nf(d).format(Math.abs(x));
+const el = (tag, attrs = {}, html = "") => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); e.innerHTML = html; return e; };
+const pill = (ok, txt) => `<span class="pill ${ok === true ? "good" : ok === false ? "bad" : "warn"}">${txt}</span>`;
+
+/* ---------- verdict tiles ---------- */
+(function verdict() {
+  const v = document.getElementById("verdict");
+  const n = STUDY.markets.nasdaq, b = STUDY.markets.bitcoin, s = STUDY.markets.sp500_monthly;
+  const tiles = [
+    { cls: "sm", big: KEYS.map(k => SHORT[k] + " p = " + num(STUDY.markets[k].luck.reality_check_vs_bh.p_value)).join("<br>"), lab: "White Reality Check je Markt",
+      p: "Wahrscheinlichkeit, dass die beste aller getesteten Regeln Buy & Hold nur durch Glück schlägt. Unter 0,05 wäre belastbar. Kein Markt kommt hin.", ok: false, t: "Kein belastbarer Vorsprung" },
+    { big: pct(n.summary[0].max_dd, 0) + " → " + pct(n.summary[1].max_dd, 0), lab: "NASDAQ Max. Drawdown, B&H → SMA200",
+      p: "Trendregeln steigen bei hoher Volatilität aus. Das senkt Schwankung und Drawdown spürbar. Das ist der echte Nutzen.", ok: true, t: "Risiko sinkt" },
+    { big: pct(n.taxes.bh.after_tax_cagr) + " vs " + pct(n.taxes.core.after_tax_cagr), lab: "NASDAQ nach Steuer p.a., B&H vs SMA200",
+      p: "Vor Steuern liegt die Regel vorn. Jeder Ausstieg realisiert Gewinne, Buy & Hold stundet die Steuer jahrzehntelang. Nach Steuern dreht das Ergebnis.", ok: false, t: "Steuer frisst den Vorsprung" },
+    { big: pct(s.frictions.find(f => f.cost_bps === 5 && f.delay === 0).cagr) + " → " + pct(s.frictions.find(f => f.cost_bps === 5 && f.delay === 1).cagr), lab: "S&P 500 SMA10, gleiche Regel, ehrliches Timing",
+      p: "Shillers Monatsdurchschnitte erlauben unbemerkt einen Blick in die Zukunft. Mit einem Monat Verzögerung schrumpft der berühmte Vorteil auf null.", ok: null, t: "Look-ahead gefunden" },
+  ];
+  for (const t of tiles) {
+    v.append(el("div", { class: "vcard" }, `<div class="eyebrow">${t.lab}</div><div class="big ${t.cls || ""}">${t.big}</div>${pill(t.ok, t.t)}<p>${t.p}</p>`));
+  }
+})();
+
+/* ---------- charts ---------- */
+function lineChart({ dates, series, log = false, height = 300, fmtY, area = false, yMin, yMax }) {
+  const W = 1000, H = height, m = { l: 58, r: 16, t: 10, b: 28 };
+  const names = Object.keys(series);
+  const t = dates.map(d => new Date(d).getTime());
+  const all = names.flatMap(n => series[n]);
+  let lo = yMin ?? Math.min(...all), hi = yMax ?? Math.max(...all);
+  const f = log ? Math.log10 : (x => x);
+  if (log) { lo = Math.pow(10, Math.floor(Math.log10(lo))); hi = Math.pow(10, Math.ceil(Math.log10(hi))); }
+  const x = v => m.l + (v - t[0]) / (t[t.length - 1] - t[0]) * (W - m.l - m.r);
+  const y = v => m.t + (1 - (f(v) - f(lo)) / (f(hi) - f(lo))) * (H - m.t - m.b);
+  let g = "";
+  const ticks = [];
+  if (log) { for (let p = Math.log10(lo); p <= Math.log10(hi) + 1e-9; p++) ticks.push(Math.pow(10, p)); }
+  else { const step = niceStep((hi - lo) / 4); for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) ticks.push(v); }
+  for (const v of ticks) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)" stroke-width="1"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="12" font-family="var(--f-mono)" fill="var(--ink-3)">${fmtY(v)}</text>`;
+  const y0 = new Date(dates[0]).getFullYear(), y1 = new Date(dates[dates.length - 1]).getFullYear();
+  const span = y1 - y0, ys = span > 40 ? 10 : span > 15 ? 5 : span > 6 ? 2 : 1;
+  for (let yr = Math.ceil(y0 / ys) * ys; yr <= y1; yr += ys) {
+    const xv = x(new Date(yr + "-01-01").getTime());
+    if (xv < m.l + 10 || xv > W - m.r - 10) continue;
+    g += `<text x="${xv}" y="${H - 8}" text-anchor="middle" font-size="12" font-family="var(--f-mono)" fill="var(--ink-3)">${yr}</text>`;
+  }
+  names.forEach((n, i) => {
+    const pts = series[n].map((v, j) => `${x(t[j]).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    if (area) g += `<polygon points="${x(t[0])},${y(0)} ${pts} ${x(t[t.length - 1])},${y(0)}" fill="${SER[i]}" fill-opacity="0.10"/>`;
+    g += `<polyline points="${pts}" fill="none" stroke="${SER[i]}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3" visibility="hidden"/>`;
+  g += names.map((n, i) => `<circle class="dot" r="4.5" fill="${SER[i]}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`).join("");
+  g += `<rect class="hit" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent"/>`;
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+  return { svg, attach(box, fmtTip) {
+    const s = box.querySelector("svg"), tip = box.querySelector(".tip");
+    const xh = s.querySelector(".xh"), dots = s.querySelectorAll(".dot");
+    const move = (ev) => {
+      const r = s.getBoundingClientRect();
+      const px = (ev.clientX - r.left) / r.width * W;
+      const tv = t[0] + (px - m.l) / (W - m.l - m.r) * (t[t.length - 1] - t[0]);
+      let j = 0, best = Infinity; for (let k = 0; k < t.length; k++) { const d = Math.abs(t[k] - tv); if (d < best) { best = d; j = k; } }
+      xh.setAttribute("x1", x(t[j])); xh.setAttribute("x2", x(t[j])); xh.setAttribute("visibility", "visible");
+      names.forEach((n, i) => { dots[i].setAttribute("cx", x(t[j])); dots[i].setAttribute("cy", y(series[n][j])); dots[i].setAttribute("visibility", "visible"); });
+      tip.hidden = false;
+      tip.innerHTML = `<b>${new Date(dates[j]).toLocaleDateString("de-DE", { year: "numeric", month: "short", day: "numeric" })}</b>` +
+        names.map((n, i) => `<div class="row"><span><span class="sw" style="background:${SER[i]}"></span>${n}</span><span>${fmtTip(series[n][j])}</span></div>`).join("");
+      const bx = box.getBoundingClientRect();
+      let left = ev.clientX - bx.left + 14; if (left + tip.offsetWidth > bx.width - 8) left = ev.clientX - bx.left - tip.offsetWidth - 14;
+      tip.style.left = Math.max(8, left) + "px"; tip.style.top = (ev.clientY - bx.top + 12) + "px";
+    };
+    const hide = () => { tip.hidden = true; xh.setAttribute("visibility", "hidden"); dots.forEach(d => d.setAttribute("visibility", "hidden")); };
+    s.addEventListener("pointermove", move); s.addEventListener("pointerleave", hide);
+  }};
+}
+function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(raw))); const n = raw / p; return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * p; }
+const legend = (names) => `<div class="legend">${names.map((n, i) => `<span><i style="background:${SER[i]}"></i>${n}</span>`).join("")}</div>`;
+
+function chartBox(title, sub, names) {
+  const box = el("div", { class: "chart" });
+  box.innerHTML = `<div class="ttl"><div><h3>${title}</h3><div class="note">${sub}</div></div>${legend(names)}</div><div class="plot"></div><div class="tip" hidden></div>`;
+  return box;
+}
+
+function stripChart(trials, bh, best) {
+  const W = 1000, H = 120, m = { l: 20, r: 20 };
+  const lo = Math.min(...trials, bh) - 0.05, hi = Math.max(...trials, bh) + 0.05;
+  const x = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
+  let g = `<line x1="${m.l}" x2="${W - m.r}" y1="60" y2="60" stroke="var(--rule)"/>`;
+  trials.forEach((v, i) => { const hit = Math.abs(v - best) < 1e-9; g += `<circle cx="${x(v)}" cy="${60 + ((i % 5) - 2) * 7}" r="${hit ? 6 : 4}" fill="${hit ? "var(--s4)" : "var(--s2)"}" fill-opacity="${hit ? 1 : 0.75}" stroke="var(--surface)" stroke-width="1.5"/>`; });
+  g += `<line x1="${x(bh)}" x2="${x(bh)}" y1="22" y2="98" stroke="var(--s1)" stroke-width="2"/><text x="${x(bh)}" y="16" text-anchor="middle" class="strip-lab">Buy &amp; Hold ${num(bh)}</text>`;
+  g += `<text x="${x(best)}" y="116" text-anchor="middle" class="strip-lab">bester ${num(best)}</text>`;
+  const step = niceStep((hi - lo) / 5);
+  for (let v0 = Math.ceil(lo / step) * step; v0 <= hi; v0 += step) { const v = Math.abs(v0) < 1e-9 ? 0 : v0; g += `<text x="${x(v)}" y="${v === 0 ? 116 : 116}" text-anchor="middle" class="strip-lab" opacity="${Math.abs(v - best) < step / 2 || Math.abs(v - bh) < step / 3 ? 0 : 1}">${num(v, 1)}</text>`; }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Sharpe Ratio aller getesteten Regeln">${g}</svg>`;
+}
+
+/* ---------- market view ---------- */
+function renderMarket(key) {
+  const s = STUDY.markets[key], L = s.luck, root = document.getElementById("market");
+  root.innerHTML = "";
+  const head = el("div", { class: "stack col" });
+  head.innerHTML = `<h3>${s.name}</h3><p class="note">${s.note} Kosten ${num(s.cost_bps_per_side, 0)} bps je Seite, Ausführung ${s.delay} Periode nach dem Signal.</p>`;
+  root.append(head);
+
+  // equity
+  const names = Object.keys(s.series.equity);
+  const eq = chartBox("Vermögen aus 1 Einheit", "logarithmische Skala", names);
+  const c1 = lineChart({ dates: s.series.dates, series: s.series.equity, log: true, height: 320,
+    fmtY: v => v >= 1000 ? nf(0).format(v) : v >= 1 ? nf(0).format(v) : nf(1).format(v) });
+  eq.querySelector(".plot").innerHTML = c1.svg; c1.attach(eq, v => nf(v >= 100 ? 0 : 2).format(v) + "×");
+  // drawdown
+  const dd = chartBox("Drawdown", "Abstand zum letzten Höchststand", names);
+  const c2 = lineChart({ dates: s.series.dates, series: s.series.drawdown, height: 200, area: false, yMax: 0,
+    fmtY: v => nf(0).format(v * 100) + " %" });
+  dd.querySelector(".plot").innerHTML = c2.svg; c2.attach(dd, v => pct(v));
+  root.append(eq, dd);
+
+  // summary table
+  const rows = s.summary.map(r => `<tr><td>${r.name}</td><td class="r">${r.start.slice(0, 4)}–${r.end.slice(0, 4)}</td><td class="r">${pct(r.cagr)}</td><td class="r">${pct(r.vol)}</td><td class="r">${num(r.sharpe)}</td><td class="r">${pct(r.max_dd)}</td><td class="r">${pct(r.time_in_market, 0)}</td><td class="r">${num(r.trades_per_year, 1)}</td></tr>`).join("");
+  const w = s.walk_forward;
+  const wf = `<tr><td>Walk-Forward (nur Vergangenheit wählt die Regel)</td><td class="r">${w.start.slice(0, 4)}–${w.end.slice(0, 4)}</td><td class="r">${pct(w.cagr)}</td><td class="r">${pct(w.vol)}</td><td class="r">${num(w.sharpe)}</td><td class="r">${pct(w.max_dd)}</td><td class="r">–</td><td class="r">–</td></tr>
+    <tr><td class="note">Buy &amp; Hold im selben Fenster</td><td class="r"></td><td class="r">${pct(w.bh_same_window.cagr)}</td><td class="r"></td><td class="r">${num(w.bh_same_window.sharpe)}</td><td class="r">${pct(w.bh_same_window.max_dd)}</td><td class="r"></td><td class="r"></td></tr>`;
+  const tw = el("div", { class: "tablewrap" });
+  tw.innerHTML = `<table><thead><tr><th>Strategie</th><th class="r">Zeitraum</th><th class="r">CAGR</th><th class="r">Vol</th><th class="r">Sharpe</th><th class="r">Max DD</th><th class="r">im Markt</th><th class="r">Trades/J</th></tr></thead><tbody>${rows}${wf}</tbody></table>`;
+  root.append(tw);
+
+  // luck
+  const rc = L.reality_check_vs_bh, bs = L.core_vs_bh_bootstrap, mk = L.monkey_core;
+  const luck = el("div", { class: "luck" });
+  const cards = [
+    { lab: "Reality Check vs. Buy & Hold", big: "p = " + num(rc.p_value), ok: rc.p_value < 0.05, t: rc.p_value < 0.05 ? "signifikant" : "nicht signifikant",
+      p: `Beste von ${rc.n_candidates} Regeln, Sharpe ${sgn(rc.best_sharpe_diff)} über Buy & Hold. Korrigiert dafür, dass wir die beste ausgesucht haben.` },
+    { lab: "Kernregel minus Buy & Hold", big: "Sharpe " + sgn(bs.sharpe_diff), ok: bs.ci95[0] > 0, t: bs.ci95[0] > 0 ? "KI über null" : "KI schließt null ein",
+      p: `95-%-Intervall ${sgn(bs.ci95[0])} bis ${sgn(bs.ci95[1])} (Block-Bootstrap, gepaart).` },
+    { lab: "Walk-Forward", big: num(L.walk_forward_is_vs_oos.mean_is_sharpe) + " → " + num(L.walk_forward_is_vs_oos.mean_oos_sharpe), ok: null, t: "In-sample → out-of-sample",
+      p: "Durchschnittlicher Sharpe der jeweils gewählten Regel. Der Abstand ist der Preis des Optimierens." },
+    { lab: "Affentest Kernregel", big: pct(mk.percentile, 0), ok: mk.percentile >= 0.95, t: mk.percentile >= 0.95 ? "besser als Zufall" : "nicht besser als Zufall",
+      p: `Anteil von ${nf(0).format(mk.n)} Zufallsstrategien mit gleicher Marktquote und Handelsfrequenz, die sie schlägt. Misst Timing, nicht Überrendite.` },
+  ];
+  for (const c of cards) luck.append(el("div", { class: "vcard" }, `<div class="eyebrow">${c.lab}</div><div class="big">${c.big}</div>${pill(c.ok, c.t)}<p>${c.p}</p>`));
+  root.append(luck);
+
+  // strip: all trials
+  const best = Math.max(...L.trial_sharpes);
+  const strip = el("div", { class: "chart" });
+  strip.innerHTML = `<div class="ttl"><div><h3>Alle ${L.n_trials} getesteten Regeln</h3><div class="note">Sharpe Ratio je Regel. Wer nur den gelben Punkt zeigt, verschweigt die anderen.</div></div><div class="legend"><span><i style="background:var(--s2)"></i>Regel</span><span><i style="background:var(--s4)"></i>beste</span><span><i style="background:var(--s1)"></i>Buy &amp; Hold</span></div></div>` + stripChart(L.trial_sharpes, L.bh_sharpe, best);
+  root.append(strip);
+
+  // decades + tax/friction
+  const g2 = el("div", { class: "grid2" });
+  const dec = el("div", { class: "tablewrap" });
+  dec.innerHTML = `<table><thead><tr><th>Jahrzehnt</th><th class="r">Sharpe B&amp;H</th><th class="r">Sharpe Regel</th><th class="r">MaxDD B&amp;H</th><th class="r">MaxDD Regel</th></tr></thead><tbody>${
+    s.decades.map(d => `<tr><td>${d.decade}</td><td class="r">${num(d.bh_sharpe)}</td><td class="r">${num(d.core_sharpe)}</td><td class="r">${pct(d.bh_maxdd, 0)}</td><td class="r">${pct(d.core_maxdd, 0)}</td></tr>`).join("")}</tbody></table>`;
+  const tx = s.taxes;
+  const fr = s.frictions.filter(f => f.delay === 1);
+  const fz = el("div", { class: "tablewrap" });
+  fz.innerHTML = `<table><thead><tr><th>Kernregel</th><th class="r">CAGR</th><th class="r">Sharpe</th></tr></thead><tbody>${
+    fr.map(f => `<tr><td>${f.cost_bps} bps je Seite</td><td class="r">${pct(f.cagr)}</td><td class="r">${num(f.sharpe)}</td></tr>`).join("")}
+    <tr><td><strong>Nach Steuer</strong> <span class="note">(${tx.regime})</span></td><td class="r">${pct(tx.core.after_tax_cagr)}</td><td class="r"></td></tr>
+    <tr><td>Buy &amp; Hold nach Steuer</td><td class="r">${pct(tx.bh.after_tax_cagr)}</td><td class="r"></td></tr></tbody></table>`;
+  g2.append(dec, fz);
+  root.append(g2);
+}
+
+(function tabs() {
+  const bar = document.getElementById("tabs");
+  const pick = (k) => {
+    bar.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.k === k)));
+    renderMarket(k);
+    try { localStorage.setItem("edgelab-tab", k); } catch (e) {}
+  };
+  for (const k of KEYS) {
+    const b = el("button", { class: "tab", role: "tab", "data-k": k, id: "tab-" + k, "aria-selected": "false" }, SHORT[k]);
+    b.addEventListener("click", () => pick(k));
+    bar.append(b);
+  }
+  let start = "nasdaq";
+  const h = location.hash.slice(1); if (KEYS.includes(h)) start = h;
+  else { try { const s = localStorage.getItem("edgelab-tab"); if (KEYS.includes(s)) start = s; } catch (e) {} }
+  pick(start);
+})();
+
+/* ---------- lessons ---------- */
+(function lessons() {
+  const n = STUDY.markets.nasdaq, b = STUDY.markets.bitcoin, s = STUDY.markets.sp500_monthly;
+  const f5 = (m, d) => m.frictions.find(f => f.cost_bps === 5 && f.delay === d);
+  const items = [
+    ["Risikosenkung ist real, Überrendite nicht belegt",
+     `SMA200 halbiert auf dem NASDAQ fast die Schwankung (${pct(n.summary[0].vol, 0)} → ${pct(n.summary[1].vol, 0)}) und schlägt im Affentest jede Zufallsstrategie. Der Sharpe-Vorsprung von ${sgn(n.luck.core_vs_bh_bootstrap.sharpe_diff)} bleibt statistisch unsicher. Sinnvoll für Leute, die einen Crash nicht aussitzen würden. Kein Renditehebel.`],
+    ["Optimieren ist teuer",
+     `Bitcoin: Die beste von ${b.luck.n_trials} Regeln zeigt im Rückblick Sharpe ${num(b.luck.best_sharpe)}. Wählt man die Regel nur mit Vergangenheitsdaten, fällt der Sharpe out-of-sample von ${num(b.luck.walk_forward_is_vs_oos.mean_is_sharpe)} auf ${num(b.luck.walk_forward_is_vs_oos.mean_oos_sharpe)}, und Walk-Forward liegt mit ${pct(b.walk_forward.cagr)} unter Buy & Hold (${pct(b.walk_forward.bh_same_window.cagr)}).`],
+    ["Steuern drehen das Ergebnis",
+     `Buy & Hold stundet die Steuer bis zum Verkauf. Bitcoin ist privat nach einem Jahr sogar steuerfrei. Jede Trendregel realisiert laufend. NASDAQ nach Steuer: ${pct(n.taxes.bh.after_tax_cagr)} gegen ${pct(n.taxes.core.after_tax_cagr)}. Bitcoin: ${pct(b.taxes.bh.after_tax_cagr)} gegen ${pct(b.taxes.core.after_tax_cagr)}. Kein Bot im Grok-Setup kennt das deutsche Steuerrecht.`],
+    ["Daten lügen leise",
+     `Der bekannte 10-Monats-Trend auf Shiller-Daten liefert ${pct(f5(s, 0).cagr)} p.a., wenn man zum selben Monatswert handelt. Diese Werte sind Monatsdurchschnitte, man hätte also Kurse aus der Zukunft genutzt. Mit ehrlichem Timing: ${pct(f5(s, 1).cagr)}, unter Buy & Hold (${pct(s.summary[0].cagr)}).`],
+    ["LLMs gehören an die richtige Stelle",
+     "Ein Sprachmodell rechnet keine Levels zuverlässig, und seine Urteile über Vergangenheit sind durch Trainingsdaten kontaminiert. Stark ist es als Prüfer: Edge Lab gibt die fertige Studie an Claude als Red-Team-Reviewer, der nach Bias, Datenfehlern und Overfitting sucht und nie eine Position setzt."],
+  ];
+  const box = document.getElementById("lessons");
+  for (const [h, p] of items) box.append(el("div", { class: "lesson" }, `<h3>${h}</h3><p>${p}</p>`));
+})();
+
+/* ---------- ledger + sources ---------- */
+(function ledger() {
+  const tb = document.getElementById("ledger");
+  for (const e of LEDGER) tb.append(el("tr", {}, `<td class="r">${e.seq}</td><td class="mono">${e.asof}</td><td>${SHORT[e.market] || e.market}</td><td>${e.source}</td><td>${e.strategy}</td><td class="r">${pct(e.exposure, 0)}</td><td class="hash">${e.hash.slice(0, 16)}…</td>`));
+  document.getElementById("sources").textContent =
+    `Daten: FRED (NASDAQCOM, CBBTCUSD, DTB3, TB3MS), Shiller S&P 500 via datasets/s-and-p-500. Studie erzeugt ${STUDY.generated_utc.replace("T", " ").replace("+00:00", " UTC")}. Code: edge-lab/ im Repo, 31 Tests.`;
+})();
+</script>

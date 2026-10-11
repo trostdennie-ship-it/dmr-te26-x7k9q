@@ -1,0 +1,42 @@
+{
+  "fred_NASDAQCOM.csv": {
+    "source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=NASDAQCOM&cosd=1900-01-01",
+    "retrieved_utc": "2026-10-11T15:26:36+00:00",
+    "rows": 14525,
+    "first": "1971-02-05",
+    "last": "2026-10-09",
+    "sha256": "c0f73288f7e5dc8b613e1280d42966fbbf569aa94a378fdf3d513a87a10386e9"
+  },
+  "fred_CBBTCUSD.csv": {
+    "source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CBBTCUSD&cosd=1900-01-01",
+    "retrieved_utc": "2026-10-11T15:26:36+00:00",
+    "rows": 4332,
+    "first": "2014-12-01",
+    "last": "2026-10-10",
+    "sha256": "f3d877c70687b48bf3b69dea1bcdf2be0d2e131c827837f390e0946de06b394c"
+  },
+  "fred_DTB3.csv": {
+    "source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTB3&cosd=1900-01-01",
+    "retrieved_utc": "2026-10-11T15:26:36+00:00",
+    "rows": 14810,
+    "first": "1970-01-02",
+    "last": "2026-10-08",
+    "sha256": "641ef1f4224810d39dcb684919746315889958531f9b690071c706cf88806b30"
+  },
+  "fred_TB3MS.csv": {
+    "source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS&cosd=1900-01-01",
+    "retrieved_utc": "2026-10-11T15:26:36+00:00",
+    "rows": 1113,
+    "first": "1934-01-01",
+    "last": "2026-09-01",
+    "sha256": "631bc444a8c5370c3a2df12f484a67ae7b9a68c00fe8a33215895fb49c8cc08c"
+  },
+  "shiller_sp500_monthly.csv": {
+    "source": "https://raw.githubusercontent.com/datasets/s-and-p-500/main/data/data.csv",
+    "retrieved_utc": "2026-10-11T15:26:36+00:00",
+    "rows": 1869,
+    "first": "1871-01-01",
+    "last": "2026-09-01",
+    "sha256": "3a45dffabc414afc298c12159abc84c2875f88175ff3d4473ef7417e725ecac6"
+  }
+}
